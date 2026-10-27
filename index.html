@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkyCast – Weather Forecast</title>
+  <meta name="description" content="SkyCast: search any city and get current weather, a 24-hour and a 7-day forecast.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛅</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body class="theme-default">
+  <header class="site-header">
+    <a class="logo" href="./"><span aria-hidden="true">⛅</span> SkyCast</a>
+
+    <form class="search" id="search-form" role="search" autocomplete="off">
+      <label for="search-input" class="visually-hidden">Search for a city</label>
+      <div class="search__field">
+        <input id="search-input" type="search" placeholder="Search for a city…"
+               role="combobox" aria-autocomplete="list" aria-expanded="false"
+               aria-controls="suggestions">
+        <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
+      </div>
+      <button type="submit" id="search-btn" class="btn">Search</button>
+    </form>
+
+    <div class="header-actions">
+      <button type="button" id="locate-btn" class="btn btn--ghost" title="Use my location">
+        <span aria-hidden="true">📍</span><span class="locate-label"> My location</span>
+      </button>
+      <div class="unit-toggle" role="group" aria-label="Temperature unit">
+        <button type="button" data-unit="celsius" aria-pressed="true">°C</button>
+        <button type="button" data-unit="fahrenheit" aria-pressed="false">°F</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="recent" id="recent" aria-label="Recent searches" hidden></nav>
+
+  <main id="main" aria-live="polite">
+    <!-- Welcome / empty state -->
+    <section class="state state--empty" id="state-empty">
+      <div class="state__icon" aria-hidden="true">🌤️</div>
+      <h1>Welcome to SkyCast</h1>
+      <p>Search for a city or use your location to see the forecast.</p>
+      <div class="quick-picks" id="quick-picks"></div>
+    </section>
+
+    <!-- Loading state -->
+    <section class="state state--loading" id="state-loading" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <p>Fetching the forecast…</p>
+    </section>
+
+    <!-- Error state -->
+    <section class="state state--error" id="state-error" hidden>
+      <div class="state__icon" aria-hidden="true">⚠️</div>
+      <h2 id="error-title">Something went wrong</h2>
+      <p id="error-message"></p>
+      <button type="button" class="btn" id="retry-btn">Retry</button>
+    </section>
+
+    <!-- Weather -->
+    <div class="weather" id="weather" hidden>
+      <section class="card current" aria-labelledby="place-name">
+        <div class="current__top">
+          <div>
+            <h1 id="place-name" class="current__place"></h1>
+            <p id="place-time" class="current__time"></p>
+          </div>
+          <div class="current__icon" id="current-icon" aria-hidden="true"></div>
+        </div>
+        <div class="current__main">
+          <p class="current__temp" id="current-temp"></p>
+          <div>
+            <p class="current__desc" id="current-desc"></p>
+            <p class="current__feels" id="current-feels"></p>
+            <p class="current__range" id="current-range"></p>
+          </div>
+        </div>
+        <dl class="stats">
+          <div class="stat"><dt>💧 Humidity</dt><dd id="stat-humidity"></dd></div>
+          <div class="stat"><dt>💨 Wind</dt><dd id="stat-wind"></dd></div>
+          <div class="stat"><dt>🌧️ Precipitation</dt><dd id="stat-precip"></dd></div>
+          <div class="stat"><dt>🌅 Sunrise</dt><dd id="stat-sunrise"></dd></div>
+          <div class="stat"><dt>🌇 Sunset</dt><dd id="stat-sunset"></dd></div>
+          <div class="stat"><dt>🔆 UV index</dt><dd id="stat-uv"></dd></div>
+        </dl>
+      </section>
+
+      <section class="card hourly" aria-labelledby="hourly-title">
+        <h2 id="hourly-title" class="card__title">Next 24 hours</h2>
+        <ol class="hourly__list" id="hourly-list"></ol>
+      </section>
+
+      <section class="card daily" aria-labelledby="daily-title">
+        <h2 id="daily-title" class="card__title">7-day forecast</h2>
+        <ol class="daily__list" id="daily-list"></ol>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> ·
+      Reverse geocoding by <a href="https://www.bigdatacloud.com/" target="_blank" rel="noopener">BigDataCloud</a></p>
+  </footer>
+</body>
+</html>
